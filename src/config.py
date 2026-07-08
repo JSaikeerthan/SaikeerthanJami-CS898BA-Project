@@ -1,11 +1,20 @@
 from pathlib import Path
 
-# Project root
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+# src/
+SRC_DIR = Path(__file__).resolve().parent
 
-# Dataset paths
-RAW_DATASET_DIR = PROJECT_ROOT / "data" / "raw" / "PlantVillage"
+# Project root
+PROJECT_ROOT = SRC_DIR.parent
+
+# Dataset Paths
+RAW_DATASET_DIR = PROJECT_ROOT / "data" / "raw" / "PlantVillage" / "color"
 PROCESSED_DATASET_DIR = PROJECT_ROOT / "data" / "processed"
+
+# Output Paths
+OUTPUT_DIR = PROJECT_ROOT / "outputs"
+MODEL_DIR = OUTPUT_DIR / "models"
+FIGURE_DIR = OUTPUT_DIR / "figures"
+LOG_DIR = OUTPUT_DIR / "logs"
 
 # Image settings
 IMAGE_SIZE = (224, 224)

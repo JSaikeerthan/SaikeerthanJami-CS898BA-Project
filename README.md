@@ -1,5 +1,5 @@
 # SaikeerthanJami-CS898BA-Project
-#Plant Leaf Disease Detection Using Image Processing and Deep Learning
+# Plant Leaf Disease Detection Using Image Processing and Deep Learning
 ## Course
 
 CS 898BA – Image Analysis and Computer Vision
