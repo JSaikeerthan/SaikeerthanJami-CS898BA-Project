@@ -3,6 +3,7 @@ Demonstration of image preprocessing steps.
 """
 
 from pathlib import Path
+from src.preprocessing.clahe import apply_clahe
 
 import cv2
 
@@ -24,6 +25,7 @@ image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 # Apply preprocessing
 resized = resize_image(image)
 blurred = gaussian_blur(resized)
+enhanced = apply_clahe(blurred)
 
 # Save outputs
 output_dir = Path("assets/preprocessing")
@@ -42,6 +44,11 @@ cv2.imwrite(
 cv2.imwrite(
     str(output_dir / "gaussian_blur.png"),
     cv2.cvtColor(blurred, cv2.COLOR_RGB2BGR)
+)
+
+cv2.imwrite(
+    str(output_dir / "clahe.png"),
+    cv2.cvtColor(enhanced, cv2.COLOR_RGB2BGR)
 )
 
 print("Preprocessing images saved successfully.")
