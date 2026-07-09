@@ -11,6 +11,7 @@ from src.preprocessing.denoise import gaussian_blur
 from src.preprocessing.clahe import apply_clahe
 from src.preprocessing.hsv import rgb_to_hsv
 from src.preprocessing.segmentation import segment_leaf
+from src.preprocessing.pipeline import preprocess_image
 
 # ----------------------------------------------------
 # Load sample image
@@ -46,6 +47,8 @@ enhanced = apply_clahe(blurred)
 hsv_image = rgb_to_hsv(enhanced)
 
 segmented = segment_leaf(enhanced)
+
+final_image = preprocess_image(image)
 
 # Convert HSV back to RGB ONLY for visualization
 hsv_rgb = cv2.cvtColor(hsv_image, cv2.COLOR_HSV2RGB)
@@ -85,6 +88,13 @@ cv2.imwrite(
 cv2.imwrite(
     str(output_dir / "segmented.png"),
     cv2.cvtColor(segmented, cv2.COLOR_RGB2BGR),
+)
+
+final_output = (final_image * 255).astype("uint8")
+
+cv2.imwrite(
+    str(output_dir / "final_pipeline.png"),
+    cv2.cvtColor(final_output, cv2.COLOR_RGB2BGR),
 )
 
 print("\nPreprocessing images saved successfully!")
