@@ -41,5 +41,6 @@ The project applies several preprocessing operations before model training:
 1. Image resizing (224 × 224)
 2. Gaussian Blur for noise reduction
 3. CLAHE for contrast enhancement
+4. Convert RGB images to the HSV color space.
 
-These steps improve image quality and highlight disease-related features while maintaining consistency across the dataset.
+These operations improve image quality and prepare the data for leaf segmentation and deep learning.

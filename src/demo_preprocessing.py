@@ -1,16 +1,21 @@
 """
-Demonstration of image preprocessing steps.
+Demonstration of the image preprocessing pipeline.
 """
 
 from pathlib import Path
-from src.preprocessing.clahe import apply_clahe
 
 import cv2
 
 from src.preprocessing.resize import resize_image
 from src.preprocessing.denoise import gaussian_blur
+from src.preprocessing.clahe import apply_clahe
+from src.preprocessing.hsv import rgb_to_hsv
+from src.preprocessing.segmentation import segment_leaf
 
+# ----------------------------------------------------
 # Load sample image
+# ----------------------------------------------------
+
 dataset = Path("data/raw/PlantVillage/color")
 
 first_class = sorted(
@@ -19,36 +24,68 @@ first_class = sorted(
 
 image_path = next(first_class.glob("*"))
 
+print(f"Using image: {image_path.name}")
+
 image = cv2.imread(str(image_path))
+
+if image is None:
+    raise RuntimeError(f"Unable to load image: {image_path}")
+
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-# Apply preprocessing
+# ----------------------------------------------------
+# Apply preprocessing pipeline
+# ----------------------------------------------------
+
 resized = resize_image(image)
+
 blurred = gaussian_blur(resized)
+
 enhanced = apply_clahe(blurred)
 
+hsv_image = rgb_to_hsv(enhanced)
+
+segmented = segment_leaf(enhanced)
+
+# Convert HSV back to RGB ONLY for visualization
+hsv_rgb = cv2.cvtColor(hsv_image, cv2.COLOR_HSV2RGB)
+
+# ----------------------------------------------------
 # Save outputs
+# ----------------------------------------------------
+
 output_dir = Path("assets/preprocessing")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 cv2.imwrite(
     str(output_dir / "original.png"),
-    cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    cv2.cvtColor(image, cv2.COLOR_RGB2BGR),
 )
 
 cv2.imwrite(
     str(output_dir / "resized.png"),
-    cv2.cvtColor(resized, cv2.COLOR_RGB2BGR)
+    cv2.cvtColor(resized, cv2.COLOR_RGB2BGR),
 )
 
 cv2.imwrite(
     str(output_dir / "gaussian_blur.png"),
-    cv2.cvtColor(blurred, cv2.COLOR_RGB2BGR)
+    cv2.cvtColor(blurred, cv2.COLOR_RGB2BGR),
 )
 
 cv2.imwrite(
     str(output_dir / "clahe.png"),
-    cv2.cvtColor(enhanced, cv2.COLOR_RGB2BGR)
+    cv2.cvtColor(enhanced, cv2.COLOR_RGB2BGR),
 )
 
-print("Preprocessing images saved successfully.")
+cv2.imwrite(
+    str(output_dir / "hsv.png"),
+    cv2.cvtColor(hsv_rgb, cv2.COLOR_RGB2BGR),
+)
+
+cv2.imwrite(
+    str(output_dir / "segmented.png"),
+    cv2.cvtColor(segmented, cv2.COLOR_RGB2BGR),
+)
+
+print("\nPreprocessing images saved successfully!")
+print(f"Saved images to: {output_dir}")
