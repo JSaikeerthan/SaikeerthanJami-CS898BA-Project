@@ -232,3 +232,17 @@ __pycache__/
 
 # VS Code
 .vscode/
+
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Generated outputs
+outputs/
+
+# OS files
+.DS_Store
+Thumbs.db
