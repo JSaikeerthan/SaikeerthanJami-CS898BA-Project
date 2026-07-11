@@ -66,7 +66,11 @@ def train_model(
     history_dir.mkdir(parents=True, exist_ok=True)
     
     # Save training history
-    with open(history_dir / "history.json", "w") as file:
+    history_path = history_dir / "training_history.json"
+    
+    with open(history_path, "w") as file:
         json.dump(history.history, file, indent=4)
+        
+    print(f"\nTraining history saved to: {history_path.resolve()}")
 
     return history
