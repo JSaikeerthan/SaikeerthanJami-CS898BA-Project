@@ -6,12 +6,13 @@ Baseline CNN model.
 
 import tensorflow as tf
 
-
 def build_cnn(num_classes: int):
 
     model = tf.keras.Sequential(
 
         [
+
+            tf.keras.layers.Input(shape=(224, 224, 3)),
 
             tf.keras.layers.Rescaling(1.0 / 255),
 
