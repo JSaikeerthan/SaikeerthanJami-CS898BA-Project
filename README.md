@@ -237,7 +237,25 @@ Confidence
 
 98.15%
 ```
+### Image Preprocessing
 
+![Preprocessing](assets/preprocessing/clahe.png)
+
+### Training Accuracy
+
+![Accuracy](assets/results/accuracy.png)
+
+### Training Loss
+
+![Loss](assets/results/loss.png)
+
+### Confusion Matrix
+
+![Confusion Matrix](assets/results/confusion_matrix.png)
+
+### Sample Predictions
+
+![Predictions](assets/results/sample_predictions.png)
 ---
 
 # Running the Project
@@ -341,14 +359,5 @@ Future work will include:
 - Streamlit Web Application
 - Docker Deployment
 - Model Quantization
-
----
-
-# Acknowledgements
-
-- PlantVillage Dataset
-- TensorFlow
-- OpenCV
-- Scikit-learn
 
 ---
