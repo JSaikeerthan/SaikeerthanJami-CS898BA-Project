@@ -1,11 +1,12 @@
 """
 trainer.py
 
-Training utilities for the baseline CNN.
+Training utilities.
 """
 
 from pathlib import Path
 import json
+
 import tensorflow as tf
 
 
@@ -14,13 +15,14 @@ def train_model(
     train_ds,
     val_ds,
     epochs: int = 5,
+    model_name: str = "baseline_cnn",
 ):
     """
-    Train the CNN model.
+    Train a TensorFlow model.
 
     Args:
         model:
-            CNN model.
+            TensorFlow model.
 
         train_ds:
             Training dataset.
@@ -31,26 +33,33 @@ def train_model(
         epochs:
             Number of training epochs.
 
+        model_name:
+            Name used when saving the trained model and history.
+
     Returns:
         Training history.
     """
 
-    # Ensure output directories exist
+    # Create output directories
     Path("outputs/models").mkdir(parents=True, exist_ok=True)
+    Path("outputs/history").mkdir(parents=True, exist_ok=True)
 
+    # Save best model
     checkpoint = tf.keras.callbacks.ModelCheckpoint(
-        filepath="outputs/models/baseline_cnn.keras",
+        filepath=f"outputs/models/{model_name}.keras",
         monitor="val_accuracy",
         save_best_only=True,
         verbose=1,
     )
 
+    # Stop training if validation loss stops improving
     early_stop = tf.keras.callbacks.EarlyStopping(
         monitor="val_loss",
         patience=3,
         restore_best_weights=True,
     )
 
+    # Train
     history = model.fit(
         train_ds,
         validation_data=val_ds,
@@ -60,17 +69,13 @@ def train_model(
             early_stop,
         ],
     )
-    
-    # Create history directory
-    history_dir = Path("outputs/history")
-    history_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Save training history
-    history_path = history_dir / "training_history.json"
-    
+    history_path = Path("outputs/history") / f"{model_name}_history.json"
+
     with open(history_path, "w") as file:
         json.dump(history.history, file, indent=4)
-        
+
     print(f"\nTraining history saved to: {history_path.resolve()}")
 
     return history
