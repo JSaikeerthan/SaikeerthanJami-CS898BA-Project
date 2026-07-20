@@ -226,6 +226,68 @@ def main():
         heatmap,
     )
 
+def generate_gradcam(model, image):
+    """
+    Generate Grad-CAM images for a PIL image.
+
+    Args:
+        model:
+            Loaded TensorFlow model.
+
+        image:
+            PIL Image.
+
+    Returns:
+        heatmap_color:
+            Colored heatmap.
+
+        overlay:
+            Grad-CAM overlay image.
+    """
+
+    image = image.convert("RGB")
+    image = image.resize(IMAGE_SIZE)
+
+    image = np.array(image)
+
+    image_array = np.expand_dims(
+        image.astype(np.float32),
+        axis=0,
+    )
+
+    heatmap = make_gradcam_heatmap(
+        model,
+        image_array,
+        last_conv_layer_name="top_conv",
+    )
+
+    heatmap = cv2.resize(
+        heatmap,
+        (image.shape[1], image.shape[0]),
+        interpolation=cv2.INTER_CUBIC,
+    )
+
+    heatmap_uint8 = np.uint8(255 * heatmap)
+
+    heatmap_color = cv2.applyColorMap(
+        heatmap_uint8,
+        cv2.COLORMAP_JET,
+    )
+
+    heatmap_color = cv2.cvtColor(
+        heatmap_color,
+        cv2.COLOR_BGR2RGB,
+    )
+
+    overlay = cv2.addWeighted(
+        image,
+        0.6,
+        heatmap_color,
+        0.4,
+        0,
+    )
+
+    return heatmap_color, overlay
 
 if __name__ == "__main__":
     main()
