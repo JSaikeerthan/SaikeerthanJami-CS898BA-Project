@@ -43,7 +43,7 @@ def main():
         train_ds=train_ds,
         val_ds=val_ds,
         epochs=5,
-        model_name="efficientnet_b0",
+        model_name="efficientnet_b0_finetuned",
     )
 
 

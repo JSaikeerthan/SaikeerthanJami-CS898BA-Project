@@ -13,7 +13,7 @@ import json
 
 from src.config import IMAGE_SIZE
 
-MODEL_PATH = "outputs/models/baseline_cnn.keras"
+MODEL_PATH = "outputs/models/efficientnet_b0.keras"
 DATASET_DIR = "data/raw/PlantVillage/color"
 
 
