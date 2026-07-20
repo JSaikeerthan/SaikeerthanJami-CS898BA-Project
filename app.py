@@ -12,16 +12,59 @@ from src.evaluation.gradcam import generate_gradcam
 # Page Configuration
 # --------------------------------------------------
 st.set_page_config(
-    page_title="Plant Disease Detection",
+    page_title="Plant Disease Detection System",
     page_icon="🌿",
     layout="wide",
 )
 
-st.title("🌿 Plant Disease Detection")
-st.write(
-    "Upload a leaf image to predict the plant disease using "
-    "an EfficientNetB0 transfer learning model."
+# --------------------------------------------------
+# Helper Function
+# --------------------------------------------------
+def format_class_name(name: str) -> str:
+    """
+    Convert dataset class names into a readable format.
+    """
+
+    name = name.replace("___", " - ")
+    name = name.replace("_", " ")
+
+    return name
+
+
+# --------------------------------------------------
+# Title
+# --------------------------------------------------
+st.title("🌿 Plant Disease Detection System")
+
+st.markdown(
+    """
+Detect plant diseases from leaf images using **EfficientNetB0 Transfer Learning**
+with **Grad-CAM Explainable AI**.
+"""
 )
+
+# --------------------------------------------------
+# Sidebar
+# --------------------------------------------------
+with st.sidebar:
+
+    st.header("Project Information")
+
+    st.write("**Model:** EfficientNetB0")
+
+    st.write("**Dataset:** PlantVillage")
+
+    st.write("**Validation Accuracy:** 97.88%")
+
+    st.write("**Framework:** TensorFlow / Keras")
+
+    st.divider()
+
+    st.write("**Developer:**")
+    st.write("Saikeerthan Jami")
+
+    st.write("CS898BA")
+    st.write("Image Analysis and Computer Vision")
 
 # --------------------------------------------------
 # Paths
@@ -62,29 +105,44 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
 
-    # ----------------------------------------------
-    # Display Uploaded Image
-    # ----------------------------------------------
     image = Image.open(uploaded_file).convert("RGB")
 
     col1, col2 = st.columns([1, 1])
 
+    # --------------------------------------------------
+    # Uploaded Image
+    # --------------------------------------------------
     with col1:
-        st.subheader("Uploaded Image")
-        st.image(image, use_container_width=True)
 
-    # ----------------------------------------------
+        st.subheader("Uploaded Image")
+
+        st.image(
+            image,
+            use_container_width=True,
+        )
+
+    # --------------------------------------------------
     # Preprocess Image
-    # ----------------------------------------------
+    # --------------------------------------------------
     resized = image.resize((224, 224))
 
-    img_array = np.array(resized, dtype=np.float32)
-    img_array = np.expand_dims(img_array, axis=0)
+    img_array = np.array(
+        resized,
+        dtype=np.float32,
+    )
 
-    # ----------------------------------------------
+    img_array = np.expand_dims(
+        img_array,
+        axis=0,
+    )
+
+    # --------------------------------------------------
     # Prediction
-    # ----------------------------------------------
-    prediction = model.predict(img_array, verbose=0)
+    # --------------------------------------------------
+    prediction = model.predict(
+        img_array,
+        verbose=0,
+    )
 
     probabilities = prediction[0]
 
@@ -94,18 +152,20 @@ if uploaded_file is not None:
 
     confidence = probabilities[predicted_index] * 100
 
-    # ----------------------------------------------
-    # Display Prediction
-    # ----------------------------------------------
+    # --------------------------------------------------
+    # Prediction Results
+    # --------------------------------------------------
     with col2:
 
         st.subheader("Prediction")
 
-        st.success(f"**Disease:** {predicted_class}")
+        st.success(
+            f"**Disease:** {format_class_name(predicted_class)}"
+        )
 
         st.metric(
             label="Confidence",
-            value=f"{confidence:.2f}%"
+            value=f"{confidence:.2f}%",
         )
 
         st.divider()
@@ -115,13 +175,20 @@ if uploaded_file is not None:
         top3 = np.argsort(probabilities)[::-1][:3]
 
         for idx in top3:
-            st.write(f"**{class_names[idx]}**")
-            st.progress(float(probabilities[idx]))
-            st.write(f"{probabilities[idx] * 100:.2f}%")
 
-    # ----------------------------------------------
+            st.write(
+                f"**{format_class_name(class_names[idx])}**"
+            )
+
+            st.progress(float(probabilities[idx]))
+
+            st.write(
+                f"{probabilities[idx] * 100:.2f}%"
+            )
+
+    # --------------------------------------------------
     # Grad-CAM
-    # ----------------------------------------------
+    # --------------------------------------------------
     st.divider()
 
     st.subheader("Grad-CAM Visualization")
@@ -134,6 +201,7 @@ if uploaded_file is not None:
     col3, col4 = st.columns(2)
 
     with col3:
+
         st.image(
             heatmap,
             caption="Grad-CAM Heatmap",
@@ -141,8 +209,18 @@ if uploaded_file is not None:
         )
 
     with col4:
+
         st.image(
             overlay,
             caption="Grad-CAM Overlay",
             use_container_width=True,
         )
+
+# --------------------------------------------------
+# Footer
+# --------------------------------------------------
+st.divider()
+
+st.caption(
+    "Plant Disease Detection using EfficientNetB0 Transfer Learning with Grad-CAM | "
+)
