@@ -17,7 +17,7 @@ from sklearn.metrics import (
 
 from src.training.data_loader import load_datasets
 
-MODEL_PATH = "outputs/models/baseline_cnn.keras"
+MODEL_PATH = "outputs/models/efficientnet_b0.keras"
 
 
 def main():
@@ -61,12 +61,16 @@ def main():
         
     print(f"\nClassification report saved to: {report_path.resolve()}")
 
-    cm = confusion_matrix(y_true, y_pred)
+    cm = confusion_matrix(
+    y_true,
+    y_pred,
+    normalize="true",
+    )
 
     output_dir = Path("outputs/figures")
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    fig, ax = plt.subplots(figsize=(20, 20))
+    fig, ax = plt.subplots(figsize=(24, 24))
     
     disp = ConfusionMatrixDisplay(
         confusion_matrix=cm,
@@ -79,6 +83,12 @@ def main():
         cmap="Blues",
         colorbar=False,
         )
+    
+    ax.set_title(
+    "Normalized Confusion Matrix - EfficientNetB0",
+    fontsize=18,
+    pad=20,
+    )
     
     fig.tight_layout()
     
