@@ -337,41 +337,41 @@ Below are examples demonstrating each preprocessing stage.
 
 ## Original Image
 
-```markdown
-![Original](assets/preprocessing/original.png)
-```
+<p align="center">
+<img src="assets/preprocessing/original.png" width="850">
+</p>
 
 ---
 
 ## Resized Image
 
-```markdown
-![Resize](assets/preprocessing/resized.png)
-```
+<p align="center">
+<img src="assets/preprocessing/resized.png" width="850">
+</p>
 
 ---
 
 ## Gaussian Blur
 
-```markdown
-![Gaussian Blur](assets/preprocessing/gaussian_blur.png)
-```
+<p align="center">
+<img src="assets/preprocessing/gaussian_blur.png" width="850">
+</p>
 
 ---
 
 ## CLAHE Enhancement
 
-```markdown
-![CLAHE](assets/preprocessing/clahe.png)
-```
+<p align="center">
+<img src="assets/preprocessing/clahe.png" width="850">
+</p>
 
 ---
 
 ## HSV Conversion
 
-```markdown
-![HSV](assets/preprocessing/hsv.png)
-```
+<p align="center">
+<img src="assets/preprocessing/hsv.png" width="850">
+</p>
 
 ---
 
@@ -824,7 +824,7 @@ The resulting visualization provides a simple yet powerful explanation of the mo
 ## Original Leaf
 
 <p align="center">
-<img src="outputs/gradcam/original.png" width="260">
+<img src="assets/gradcam/original.png" width="260">
 </p>
 
 ---
@@ -832,7 +832,7 @@ The resulting visualization provides a simple yet powerful explanation of the mo
 ## Generated Heatmap
 
 <p align="center">
-<img src="outputs/gradcam/heatmap.png" width="260">
+<img src="assets/gradcam/heatmap.png" width="260">
 </p>
 
 ---
@@ -840,7 +840,7 @@ The resulting visualization provides a simple yet powerful explanation of the mo
 ## Overlay Visualization
 
 <p align="center">
-<img src="outputs/gradcam/overlay.png" width="260">
+<img src="assets/gradcam/overlay.png" width="260">
 </p>
 
 ---
